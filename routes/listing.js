@@ -5,7 +5,6 @@ const ExpressError = require("../utils/ExpressError.js");
 const {listingSchema} = require("../schema.js");
 const Listing = require("../models/listing.js");
 
-
 //Server side validation for listing Schema
 const validateListing = (req, res, next) =>{
     let {error} = listingSchema.validate(req.body);
@@ -18,7 +17,7 @@ const validateListing = (req, res, next) =>{
 }
 
 //Index Route
-router.get("/", wrapAsync(async (req, res) =>{
+router.get("/",  wrapAsync(async (req, res) =>{
     const allListings = await Listing.find({});
     res.render("listings/index.ejs", {allListings});
 }));
@@ -35,17 +34,32 @@ router.get("/:id", wrapAsync(async (req, res) =>{
     res.render("listings/show.ejs", {listing});
 }));
 
-//Create Route
-router.post("/", validateListing,  wrapAsync(async (req, res, next) =>{
-    let listing = req.body.listing;
+router.post("/", validateListing, wrapAsync(async (req, res, next) => {
+    console.log(req.body); // Log the request body
+    const { listing } = req.body;
     const newListing = new Listing(listing);
-    let url = req.body.listing.image;        
-    let filename = "listingimage"; 
-    newListing.image = {url, filename};
+    const { url } = req.body.listing.image;
+    const filename = "listingimage"; // or however you want to handle the filename
+    if (typeof url === 'string') {
+        newListing.image = { url, filename };
+    } else {
+        throw new Error('Invalid image URL');
+    }
     await newListing.save();
     res.redirect("/listings");
-})
-);
+}));
+
+// //Create Route
+// router.post("/",  wrapAsync(async (req, res, next) =>{
+//     let listing = req.body.listing;
+//     const newListing = new Listing(listing);
+//     let url = req.body.listing.image;        
+//     let filename = "listingimage"; 
+//     newListing.image = {url, filename};
+//     await newListing.save();
+//     res.redirect("/listings");
+// })
+// );
 
 //Edit Route
 router.get("/:id/edit",wrapAsync(async (req, res) => {
@@ -54,15 +68,29 @@ router.get("/:id/edit",wrapAsync(async (req, res) => {
     res.render("listings/edit.ejs", {listing});
 }));
 
-//Update Route
-router.put("/:id", validateListing, wrapAsync(async (req, res) =>{
-    let {id} = req.params;
-    let listing = await Listing.findByIdAndUpdate(id, {...req.body.listing});
-        let url = req.body.listing.image;
-        listing.image = {url};
-        await listing.save();
+router.put("/:id", wrapAsync(async (req, res) => {
+    console.log(req.body); // Log the request body
+    const { id } = req.params;
+    const { listing } = req.body;
+    const updatedListing = await Listing.findByIdAndUpdate(id, listing, { new: true });
+
+    if (req.body.listing.image && req.body.listing.image.url) {
+        updatedListing.image.url = req.body.listing.image.url;
+    }
+
+    await updatedListing.save();
     res.redirect(`/listings/${id}`);
 }));
+
+// //Update Route
+// router.put("/:id", wrapAsync(async (req, res) =>{
+//     let {id} = req.params;
+//     let listing = await Listing.findByIdAndUpdate(id, {...req.body.listing});
+//         let url = req.body.listing.image;
+//         listing.image.url = {url};
+//         await listing.save();
+//     res.redirect(`/listings/${id}`);
+// }));
 
 //Delete Route
 router.delete("/:id", wrapAsync(async (req, res) =>{
