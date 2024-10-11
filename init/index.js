@@ -18,6 +18,7 @@ async function main(){
 
 const initDB = async() =>{
     await Listing.deleteMany({});
+    initData.data = initData.data.map((obj) => ({ ...obj, owner: "67078788b966cdfbfed4548c",}));// instead of updating owner for each in data.js we have done it here and as map fn create new arr, we are storing the same back to the arr
     await Listing.insertMany(initData.data);
     console.log("data initialized");
 };
