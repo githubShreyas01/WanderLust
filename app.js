@@ -1,3 +1,7 @@
+if(process.env.NODE_ENV != "production"){
+    require('dotenv').config() // when proj in development phase use env file but at time of prod create another var NODE_ENV so that imp credentials present in env file doesnt get leaked
+}
+
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");

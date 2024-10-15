@@ -4,7 +4,7 @@
 
     <br><br><br>
     <h3>Create a new Listing</h3>
-    <form method="POST" action="/listings" novalidate class="needs-validation">
+    <form method="POST" action="/listings" novalidate class="needs-validation" enctype="multipart/form-data"> <!-- enctype used to help forms send files to db-->
         
         <div class="mb-3">
             <lable for="title" class="form-label">Title</lable>
@@ -23,8 +23,8 @@
         </div>
         
         <div class="mb-3">
-            <lable for="image" class="form-label">Image Link</lable>
-<input type="text" name="listing[image][url]" placeholder="Enter image url/link" class="form-control"/>
+            <lable for="image" class="form-label">Upload Listing Image</lable>
+            <input type="file" name="listing[image]" placeholder="Enter image url/link" class="form-control" required/>
         </div>
         
         <div class="row">
