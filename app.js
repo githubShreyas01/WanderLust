@@ -51,9 +51,9 @@ const sessionOptions = {
     },
 };
 
-app.get("/", (req, res) =>{
-    res.send("HI root");
-});
+// app.get("/", (req, res) =>{
+//     res.send("HI root");
+// });
 
 app.use(session(sessionOptions)); // flash and passport both will use session
 app.use(flash());

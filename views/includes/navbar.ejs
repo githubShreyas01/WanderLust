@@ -1,22 +1,76 @@
+<style>
+  .search-btn{
+    background-color: #fe242d;
+    color: #fff;
+    border-radius: 25px;
+    padding: 0 1rem 0 1rem;
+
+  }
+
+  .search-btn:hover{
+    background-color: #fe242d;
+    color: #fff;
+  }
+
+  .search-btn i {
+    display: inline;
+    margin-right: 0.5rem;
+  }
+
+  .search-input{
+    border-radius: 25px;
+    padding: 0.5rem 3rem 0.5rem 3rem;
+    font-size: 0.8rem;
+  }
+
+  .sign-up{
+    background-color: #fe242d;
+    border-radius: 25px;
+    color: #fff !important;
+  }
+
+  .sign-up:hover{
+    box-shadow: 2px 2px 5px gray;
+    transition: box-shadow 0.3s ease-in-out;
+  }
+
+  .nav-search:hover{
+    padding: 0.5rem 0 0.5rem 0;
+    border-radius: 20px;
+    box-shadow: 5px 5px 5px gray;
+    transition: box-shadow 0.3s ease-in-out;
+  }
+  
+</style>
+
 <nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/"><i class="fa-regular fa-compass"></i></a>
+      <a class="navbar-brand" href="/listings"><i class="fa-regular fa-compass"></i></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" >
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-link" aria-current="page" href="/">Home</a>
-          <a class="nav-link" href="/listings">All Listings</a>
-          <a class="nav-link" href="/listings/new">Add New Listing</a>
+          <a class="nav-link-logo" href="/listings">WanderLust</a>
         </div>
+
+        <div class="navbar-nav ms-auto nav-search">
+          <div class="container-fluid">
+            <form class="d-flex" role="search">
+              <input class="form-control me-2 search-input" type="search" placeholder="Search Destination" aria-label="Search">
+              <button class="btn search-btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i>Search</button>
+            </form>
+          </div>
+        </div>
+
         <div class="navbar-nav ms-auto">
+          <a class="nav-link" href="/listings/new">Add your home</a>
           <% if(!currUser) { %>
-            <a class="nav-link" aria-current="page" href="/signup">Sign up</a>
-            <a class="nav-link" href="/login">Login</a>
+            <a class="nav-link sign-up" aria-current="page" href="/signup"><b>Sign up</b></a>
+            <a class="nav-link" href="/login"><b>Login</b></a>
           <% } %>
           <% if(currUser) { %>
-            <a class="nav-link" href="/logout">Log out</a>
+            <a class="nav-link" href="/logout"><b>Log out</b></a>
           <% } %>
         </div>
       </div>
